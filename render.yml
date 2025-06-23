@@ -1,7 +1,8 @@
 services:
   - type: web
-    name: rohit-advocate-api
+    name: youtube-legal-advisor
     env: python
     plan: free
-    buildCommand: ""
-    startCommand: python app.py
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    autoDeploy: true
