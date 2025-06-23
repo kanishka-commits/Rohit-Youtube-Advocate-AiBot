@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify, render_template
 from vector_database import get_policy_response, simplify_contract, check_content_safety, generate_invoice, ask_rohit
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="static",
+    template_folder="templates"
+)
 
 @app.route("/")
 def index():
