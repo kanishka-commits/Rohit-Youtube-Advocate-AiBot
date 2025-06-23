@@ -1,42 +1,109 @@
-from langchain_community.document_loaders import PDFPlumberLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_groq import ChatGroq
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_groq import ChatGroq
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from dotenv import load_dotenv
 import os
 
-# Path to your actual PDF
-PDF_PATH = "YouTube-Community-Guidelines-August-2018.pdf"
+# Load environment variables
+load_dotenv()
+
+# Constants
 FAISS_DB_PATH = "vectorstore/db_faiss"
-OLLAMA_MODEL_NAME = "deepseek-r1:14b"  # Make sure this model is available in your Ollama setup
+OLLAMA_MODEL_NAME = "deepseek-r1:1.5b"
+GROQ_MODEL = "deepseek-r1-distill-llama-70b"
 
-# Step 1: Load the PDF
-def load_pdf(file_path):
-    loader = PDFPlumberLoader(file_path)
-    return loader.load()
+# Setup LLM
+llm = ChatGroq(model=GROQ_MODEL, temperature=0.2)
 
-# Step 2: Split the content into chunks
-def create_chunks(documents):
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
-        add_start_index=True
-    )
-    return splitter.split_documents(documents)
+# Load FAISS DB
+def load_faiss():
+    embeddings = OllamaEmbeddings(model=OLLAMA_MODEL_NAME)
+    return FAISS.load_local(FAISS_DB_PATH, embeddings=embeddings, allow_dangerous_deserialization=True)
 
-# Step 3: Get Ollama embeddings
-def get_embedding_model(model_name):
-    return OllamaEmbeddings(model=model_name)
+db = load_faiss()
 
-# Step 4: Store in FAISS vector DB
-def create_faiss_index(docs, model_name):
-    embeddings = get_embedding_model(model_name)
-    faiss_db = FAISS.from_documents(docs, embeddings)
-    faiss_db.save_local(FAISS_DB_PATH)
-    print(f"Vector database saved at: {FAISS_DB_PATH}")
+# Utility to build a prompt chain
+def get_chain(template):
+    prompt = ChatPromptTemplate.from_template(template)
+    return prompt | llm | StrOutputParser()
 
-# Run everything
-if __name__ == "__main__":
-    docs = load_pdf(PDF_PATH)
-    chunks = create_chunks(docs)
-    create_faiss_index(chunks, OLLAMA_MODEL_NAME)
+# Function: Simplify Contract
+def simplify_contract(text):
+    template = """
+    Simplify this contract text for a content creator. Be clear, accurate, and brief:
+
+    Contract:
+    {text}
+
+    Simplified Summary:
+    """
+    chain = get_chain(template)
+    return chain.invoke({"text": text})
+
+# Function: Content Safety Check
+def check_content_safety(text):
+    template = """
+    Analyze the following content for YouTube safety and flag any potential violations (e.g., hate speech, misinformation, copyright, nudity, etc.):
+
+    Content:
+    {text}
+
+    Report:
+    """
+    chain = get_chain(template)
+    return chain.invoke({"text": text})
+
+# Function: Generate Invoice
+def generate_invoice(brand, service, amount, include_gst):
+    gst_text = " including 18% GST" if include_gst else ""
+    final_amount = round(amount * 1.18, 2) if include_gst else amount
+
+    return f"""
+    INVOICE
+    -------------
+    Brand/Sponsor: {brand}
+    Service: {service}
+    Amount: ₹{final_amount:.2f}{gst_text}
+    Thank you for your collaboration!
+    """
+
+# Function: Get Policy Response (RAG)
+def get_policy_response(question):
+    context_docs = db.similarity_search(question)
+    context = "\n\n".join([doc.page_content for doc in context_docs])
+
+    template = """
+    Use the context below to answer the user's YouTube policy question.
+    Do not guess or hallucinate answers.
+
+    Question: {question}
+    Context:
+    {context}
+
+    Answer:
+    """
+    chain = get_chain(template)
+    return chain.invoke({"question": question, "context": context})
+
+# Function: Ask Rohit Anything (RAG)
+def ask_rohit(question):
+    context_docs = db.similarity_search(question)
+    context = "\n\n".join([doc.page_content for doc in context_docs])
+
+    template = """
+    You're a legal assistant AI trained on YouTube community guidelines.
+    Use the context below to answer the creator's question clearly.
+
+    Question: {question}
+    Context:
+    {context}
+
+    Answer:
+    """
+    chain = get_chain(template)
+    return chain.invoke({"question": question, "context": context})
+
+
