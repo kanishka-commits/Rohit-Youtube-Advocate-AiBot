@@ -16,8 +16,11 @@ OLLAMA_MODEL_NAME = "deepseek-r1:1.5b"
 GROQ_MODEL = "deepseek-r1-distill-llama-70b"
 
 # Setup LLM
-llm = ChatGroq(model=GROQ_MODEL, temperature=0.2)
-
+llm = ChatGroq(
+    api_key=os.getenv("GROQ_API_KEY"),
+    model=GROQ_MODEL,
+    temperature=0.2
+)
 # Load FAISS DB
 def load_faiss():
     embeddings = OllamaEmbeddings(model=OLLAMA_MODEL_NAME)
