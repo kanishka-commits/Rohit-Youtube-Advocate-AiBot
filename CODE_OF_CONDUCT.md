@@ -36,7 +36,7 @@ This Code of Conduct applies within all project spaces—online and offline—an
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project admin at:
 
-📧 **Email**: mpawankumarofficial@gmail.com  
+📧 **Email**: mpawankumar356@gmail.com  
 🔗 **GitHub**: [@mpawank](https://github.com/mpawank)
 
 All complaints will be reviewed and investigated promptly and fairly.
