@@ -16,7 +16,7 @@ We welcome all contributors, especially during **GSSoC'25**. Whether you’re fi
   git checkout -b feature/your-feature-name
 
 4. **Install dependencies** 
-  ```bash
+  '''bash
   pip install -r requirements.txt
 
  5. **Make your changes, test, and commit** 
