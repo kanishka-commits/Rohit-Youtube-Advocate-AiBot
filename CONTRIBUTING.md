@@ -12,7 +12,7 @@ We welcome all contributors, especially during **GSSoC'25**. Whether you’re fi
    ```bash
    git clone https://github.com/YOUR_USERNAME/Rohit-Youtube-Advocate-AiBot.git
 3. **Create a branch**
-   ```bash
+  ```bash
   git checkout -b feature/your-feature-name
 
 4. **Install dependencies** 
@@ -22,7 +22,7 @@ We welcome all contributors, especially during **GSSoC'25**. Whether you’re fi
  5. **Make your changes, test, and commit** 
  ```bash
   git commit -m "Add: [your meaningful message]"
-  
+
 6. **Push to your fork and open a Pull Request**
   ``` bash
   git push origin feature/your-feature-name
