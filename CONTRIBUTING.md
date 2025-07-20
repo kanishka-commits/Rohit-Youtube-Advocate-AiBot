@@ -14,12 +14,15 @@ We welcome all contributors, especially during **GSSoC'25**. Whether you’re fi
 3. **Create a branch**
    ```bash
   git checkout -b feature/your-feature-name
+
 4. **Install dependencies** 
   ```bash
   pip install -r requirements.txt
+
  5. **Make your changes, test, and commit** 
  ```bash
   git commit -m "Add: [your meaningful message]"
+  
 6. **Push to your fork and open a Pull Request**
   ``` bash
   git push origin feature/your-feature-name
