@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify, render_template
 from vector_database import get_policy_response, simplify_contract, check_content_safety, generate_invoice, ask_rohit
+from flask_cors import CORS
 
 app = Flask(
     __name__,
     static_folder="static",
     template_folder="templates"
 )
+CORS(app)
+
 
 @app.route("/")
 def index():
@@ -42,7 +45,7 @@ def invoice():
         include_gst = data.get("include_gst", False)
     except (KeyError, ValueError):
         return jsonify({"error": "Invalid input"})
-    
+
     invoice_text = generate_invoice(brand, service, amount, include_gst)
     return jsonify({"invoice_text": invoice_text})
 

@@ -88,3 +88,4 @@ python-dotenv
 gunicorn
 flask
 sentence-transformers
+Flask-CORS
