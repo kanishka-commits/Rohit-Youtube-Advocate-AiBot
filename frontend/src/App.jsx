@@ -17,7 +17,9 @@ const App = () => {
           <div className="logo">YouTube Advisor</div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
+            
             <li><Link to="/content-safety">Content Safety</Link></li>
+            <li><Link to="/contract-explainer">Contract Explainer</Link></li>
             <li><Link to="/invoice-generator">Invoice Generator</Link></li>
             <li><Link to="/ama">Ask Me Anything</Link></li>
             <li><Link to="/policy-qa">Policy Q&A</Link></li>
@@ -27,8 +29,8 @@ const App = () => {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/contract-explainer" element={<ContractExplainer />} />
             <Route path="/content-safety" element={<ContentSafetyChecker />} />
+            <Route path="/contract-explainer" element={<ContractExplainer />} />
             <Route path="/invoice-generator" element={<InvoiceGenerator />} />
             <Route path="/ama" element={<AMA />} />
             <Route path="/policy-qa" element={<YouTubePolicyQA />} />

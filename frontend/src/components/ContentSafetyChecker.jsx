@@ -1,6 +1,8 @@
-// src/components/ContentSafetyChecker.jsx
+// // src/components/ContentSafetyChecker.jsx
+
 import React, { useState } from "react";
 import { postData } from "../utils/postData";
+import "../styles/CommonStyles.css";
 
 export default function ContentSafetyChecker() {
   const [script, setScript] = useState("");
@@ -20,35 +22,26 @@ export default function ContentSafetyChecker() {
   };
 
   return (
-    <section>
-      <h3 className="text-3xl font-extrabold mb-4 flex items-center">
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 38 38"
-          fill="none"
-          className="mr-2"
-        >
-          <rect width="38" height="38" rx="10" fill="#FF0000" />
-          <polygon points="15,12 28,19 15,26" fill="white" />
+    <section className="section-container">
+      <h3>
+        <svg width="32" height="32" viewBox="0 0 38 38" fill="none" style={{ marginRight: "10px" }}>
+          <rect width="38" height="38" rx="10" fill="#00ffff" />
+          <polygon points="15,12 28,19 15,26" fill="black" />
         </svg>
         YouTube Content Safety Checker
       </h3>
       <form onSubmit={handleSubmit}>
         <textarea
-          className="w-full p-3 border-2 border-red-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-600 bg-white text-black"
           rows={6}
           value={script}
           onChange={(e) => setScript(e.target.value)}
           placeholder="Paste your content here..."
         />
-        <button type="submit" className="btn-primary mt-4 px-6 py-2 text-lg">
+        <button type="submit" className="btn-primary">
           Check Content Safety
         </button>
       </form>
-      <div className="result-card mt-4">
-        {loading ? "⏳ Checking..." : result}
-      </div>
+      <div className="result-card">{loading ? "⏳ Checking..." : result}</div>
     </section>
   );
 }

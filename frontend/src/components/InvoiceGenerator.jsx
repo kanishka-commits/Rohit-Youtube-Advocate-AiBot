@@ -1,7 +1,8 @@
-// src/components/InvoiceGenerator.jsx
+// // src/components/InvoiceGenerator.jsx
 import React, { useState } from "react";
 import { postData } from "../utils/postData";
 import { jsPDF } from "jspdf";
+import "../styles/CommonStyles.css";
 
 export default function InvoiceGenerator() {
   const [inputs, setInputs] = useState({
@@ -40,20 +41,15 @@ export default function InvoiceGenerator() {
   };
 
   return (
-    <section>
-      <h3 className="text-3xl font-extrabold mb-4 flex items-center">
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 38 38"
-          fill="none"
-          className="mr-2"
-        >
-          <rect width="38" height="38" rx="10" fill="#FF0000" />
-          <polygon points="15,12 28,19 15,26" fill="white" />
+    <section className="section-container">
+      <h3>
+        <svg width="32" height="32" viewBox="0 0 38 38" fill="none" style={{ marginRight: "10px" }}>
+          <rect width="38" height="38" rx="10" fill="#00ffff" />
+          <polygon points="15,12 28,19 15,26" fill="black" />
         </svg>
         YouTube Invoice Generator
       </h3>
+
       <form onSubmit={handleSubmit}>
         <input
           id="brand"
@@ -61,7 +57,7 @@ export default function InvoiceGenerator() {
           value={inputs.brand}
           onChange={handleChange}
           placeholder="Brand or Sponsor"
-          className="w-full mb-2 p-3 border-2 border-red-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-600 bg-white text-black"
+          className="input-field"
         />
         <input
           id="service"
@@ -69,7 +65,7 @@ export default function InvoiceGenerator() {
           value={inputs.service}
           onChange={handleChange}
           placeholder="Service Description"
-          className="w-full mb-2 p-3 border-2 border-red-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-600 bg-white text-black"
+          className="input-field"
         />
         <input
           id="amount"
@@ -77,29 +73,32 @@ export default function InvoiceGenerator() {
           value={inputs.amount}
           onChange={handleChange}
           placeholder="Amount"
-          className="w-full mb-2 p-3 border-2 border-red-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-600 bg-white text-black"
+          className="input-field"
         />
-        <label className="flex items-center space-x-2 mb-2">
+
+        <label className="checkbox-label">
           <input
             id="include_gst"
             type="checkbox"
             checked={inputs.include_gst}
             onChange={handleChange}
-            className="accent-red-600"
           />
-          <span className="text-black">Include GST (18%)</span>
+          <span>Include GST (18%)</span>
         </label>
-        <button type="submit" className="btn-primary mt-4 px-6 py-2 text-lg">
+
+        <button type="submit" className="btn-primary">
           Generate Invoice
         </button>
       </form>
+
       {result && (
-        <div className="result-card mt-4 whitespace-pre-wrap">
+        <div className="result-card" style={{ whiteSpace: "pre-wrap" }}>
           {result}
           {!loading && !result.startsWith("❌") && (
             <button
               onClick={downloadPDF}
-              className="mt-3 btn-primary px-4 py-2 text-base"
+              className="btn-primary"
+              style={{ marginTop: "1rem" }}
             >
               Download PDF
             </button>
