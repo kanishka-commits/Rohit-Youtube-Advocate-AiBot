@@ -1,0 +1,69 @@
+/* src/styles/theme.css (FINAL - Matched to your original files) */
+
+/* --- 1. THEME VARIABLE DEFINITIONS --- */
+
+body.light {
+    --page-background: #f4f7f9;
+    --navbar-background: #ffffff;
+    --container-background: #ffffff;
+    --container-gradient: none;
+    --input-background: #ffffff;
+    --card-background: #f8f9fa;
+    --main-text-color: #212529;
+    --highlight-color: #007bff;
+    --primary-accent: #007bff; /* A professional blue for light mode */
+    --primary-accent-hover: #0069d9;
+    --primary-text-on-accent: #ffffff;
+    --input-border-color: #ced4da;
+    --image-shadow: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* DARK THEME - These variables are taken directly from your CSS files */
+  body.dark {
+    --page-background: #0f0f0f;
+    --navbar-background: #121212;
+    --container-background: #0f0f0f; /* Fallback */
+    --container-gradient: linear-gradient(to bottom right, #0f0f0f, #1e1e1e);
+    --input-background: #1e1e1e;
+    --card-background: #2a2a2a;
+    --main-text-color: #ffffff;
+    --highlight-color: #00ffff;
+    --primary-accent: #00ffff;
+    --primary-accent-hover: #00e6e6;
+    --primary-text-on-accent: #000000;
+    --input-border-color: #00ffff;
+    --image-shadow: rgba(0, 255, 255, 0.1);
+  }
+  
+  
+  /* --- 2. GLOBAL & LAYOUT STYLES --- */
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    background-color: var(--page-background);
+    color: var(--main-text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .main-content {
+    padding: 2rem;
+  }
+  
+  /* --- Icon Styles --- */
+
+.h3-icon rect {
+  fill: var(--primary-accent);
+}
+
+.h3-icon polygon {
+  fill: var(--primary-text-on-accent);
+}
