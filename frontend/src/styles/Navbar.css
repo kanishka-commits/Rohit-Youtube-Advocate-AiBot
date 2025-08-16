@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #121212;
+  background: var(--navbar-background);
   padding: 16px 32px;
   position: sticky;
   top: 0;
@@ -13,25 +13,37 @@
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #00ffff;
+  color: var(--primary-accent);
 }
 
 .nav-links {
   list-style: none;
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
 
 .nav-links li a {
-  color: white;
+  color: var(--main-text-color);
   text-decoration: none;
   font-weight: 500;
 }
 
 .nav-links li a:hover {
-  color: #00ffff;
+  color: var(--primary-accent);
 }
 
 .main-content {
   padding: 2rem;
 }
+
+.theme-toggle-nav {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: var(--main-text-color);
+}
+.theme-toggle-nav:hover { 
+  color: var(--primary-accent); 
+  }
