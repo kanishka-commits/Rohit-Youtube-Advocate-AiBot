@@ -24,9 +24,9 @@ export default function AMA() {
   return (
     <section className="section-container">
       <h3>
-        <svg width="32" height="32" viewBox="0 0 38 38" fill="none" style={{ marginRight: "10px" }}>
-          <rect width="38" height="38" rx="10" fill="#00ffff" />
-          <polygon points="15,12 28,19 15,26" fill="black" />
+        <svg className="h3-icon" width="32" height="32" viewBox="0 0 38 38" fill="none" style={{ marginRight: "10px" }}>
+          <rect width="38" height="38" rx="10" />
+          <polygon points="15,12 28,19 15,26" />
         </svg>
         YouTube AMA
       </h3>
