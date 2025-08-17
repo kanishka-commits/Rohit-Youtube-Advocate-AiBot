@@ -78,13 +78,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
       <!-- Logo and site title -->
       <div class="flex items-center space-x-3">
-        <img src="static/Images/rohit_pfp.jpg" alt="Rohit Advocate logo"
+        <img src="/backend/static/Images/rohit_pfp.jpg" alt="Rohit Advocate logo"
           class="w-12 h-12 rounded-full shadow-lg border-2 border-blue-600" width="48" height="48" />
         <h1 class="text-2xl font-bold text-blue-700">Rohit Advocate</h1>
       </div>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden md:flex space-x-8 text-gray-700 font-semibold" aria-label="Primary">
+      <nav class="hidden xl:flex space-x-8 text-gray-700 font-semibold" aria-label="Primary">
         <a href="#contract" class="hover:text-blue-600 transition-all duration-200 hover:scale-105">Explain My
           Contract</a>
         <a href="#content-safety" class="hover:text-blue-600 transition-all duration-200 hover:scale-105">Content Safety
@@ -95,22 +95,36 @@
         <a href="#ama" class="hover:text-blue-600 transition-all duration-200 hover:scale-105">Ask Rohit Anything</a>
       </nav>
 
-      <!-- Mobile menu toggle button -->
+      <!-- Toggle Button -->
       <button id="mobile-menu-button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"
-        class="md:hidden text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600">
-        <i class="fas fa-bars fa-lg"></i>
+        class="xl:hidden text-gray-700 focus:outline-none focus:ring-2 z-50 relative">
+        <i id="menu-icon" class="fas fa-bars fa-lg"></i>
       </button>
     </div>
 
-    <!-- Mobile menu -->
-    <nav id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200" aria-label="Mobile navigation">
-      <a href="#contract" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Explain My Contract</a>
-      <a href="#content-safety" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Content Safety
-        Checker</a>
-      <a href="#invoice" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Invoice Generator</a>
-      <a href="#policy-guard" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">YouTube Policy
-        Guard</a>
-      <a href="#ama" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Ask Rohit Anything</a>
+    <!-- Backdrop -->
+    <div id="menu-backdrop"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300 ease-in-out z-40"></div>
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu"
+      class="fixed top-0 left-0 w-3/4 max-w-sm h-full bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out xl:hidden z-50"
+      aria-label="Mobile navigation">
+      <div class="px-4 py-5 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="text-lg font-bold text-gray-800">Menu</h2>
+        <button id="close-menu-button" aria-label="Close menu" class="text-gray-600 hover:text-red-500">
+          <i class="fas fa-times fa-lg"></i>
+        </button>
+      </div>
+      <div class="py-4">
+        <a href="#contract" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Explain My Contract</a>
+        <a href="#content-safety" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Content Safety
+          Checker</a>
+        <a href="#invoice" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Invoice Generator</a>
+        <a href="#policy-guard" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">YouTube Policy
+          Guard</a>
+        <a href="#ama" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold">Ask Rohit Anything</a>
+      </div>
     </nav>
   </header>
 
@@ -118,7 +132,7 @@
   <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
     <!-- Hero Section -->
     <section class="text-center max-w-3xl mx-auto hero-gradient rounded-2xl p-8 text-white shadow-2xl">
-      <img src="static/Images/rohit_pfp.jpg" alt="Portrait of Rohit Negi"
+      <img src="/backend/static/Images/rohit_pfp.jpg" alt="Portrait of Rohit Negi"
         class="mx-auto rounded-full mb-6 shadow-2xl border-4 border-white" width="200" height="200" />
       <h2 class="text-4xl font-extrabold mb-4">Rohit Advocate</h2>
       <p class="text-lg opacity-90">
@@ -315,14 +329,38 @@
 
   <!-- JavaScript -->
   <script>
-    // Toggle mobile menu visibility
-    const mobileMenuButton = document.getElementById("mobile-menu-button");
-    const mobileMenu = document.getElementById("mobile-menu");
+    // // Toggle mobile menu visibility
+    const menuButton = document.getElementById('mobile-menu-button');
+    const closeButton = document.getElementById('close-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('menu-backdrop');
+    const menuIcon = document.getElementById('menu-icon');
 
-    mobileMenuButton.addEventListener("click", () => {
-      const isHidden = mobileMenu.classList.toggle("hidden");
-      mobileMenuButton.setAttribute("aria-expanded", !isHidden);
+    function openMenu() {
+      mobileMenu.classList.remove('-translate-x-full');
+      mobileMenu.classList.add('translate-x-0');
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('opacity-100');
+      menuIcon.classList.replace('fa-bars', 'fa-times');
+      menuButton.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('translate-x-0');
+      mobileMenu.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+      backdrop.classList.remove('opacity-100');
+      menuIcon.classList.replace('fa-times', 'fa-bars');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('translate-x-0');
+      isOpen ? closeMenu() : openMenu();
     });
+
+    closeButton.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
 
     // Helper function to POST JSON data and return JSON response
     async function postData(url = "", data = {}) {
