@@ -1,13 +1,23 @@
 // // src/components/AMA.jsx
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { postData } from "../utils/postData";
 import "../styles/CommonStyles.css";
 
 export default function AMA() {
-  const [question, setQuestion] = useState("");
+  // Initialize state from localStorage, or with an empty string if nothing is saved.
+  const [question, setQuestion] = useState(() => {
+    const savedQuestion = localStorage.getItem("savedAMAQuestion");
+    return savedQuestion || "";
+  });
+
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Save the question to localStorage whenever it changes.
+  useEffect(() => {
+    localStorage.setItem("savedAMAQuestion", question);
+  }, [question]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
