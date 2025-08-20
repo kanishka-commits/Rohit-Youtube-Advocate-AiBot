@@ -1,12 +1,21 @@
 // // src/components/ContractExplainer.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Import useEffect
 import { postData } from "../utils/postData";
 import "../styles/CommonStyles.css";
 
 export default function ContractExplainer() {
-  const [text, setText] = useState("");
+  // Initialize state by reading from localStorage first.
+  const [text, setText] = useState(() => {
+    const savedText = localStorage.getItem("savedContractText");
+    return savedText || "";
+  });
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Add an effect that saves the text to localStorage whenever it changes.
+  useEffect(() => {
+    localStorage.setItem("savedContractText", text);
+  }, [text]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,8 +46,8 @@ export default function ContractExplainer() {
         <textarea
           rows={6}
           value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Paste contract text here..."
+          onChange={(e) => setText(e.g.target.value)}
+          placeholder="Paste contract text here... your text will be saved as you type."
         />
         <button type="submit" className="btn-primary">
           Simplify Contract
