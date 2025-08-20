@@ -1,19 +1,28 @@
 // // src/components/InvoiceGenerator.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { postData } from "../utils/postData";
 import { jsPDF } from "jspdf";
 import "../styles/CommonStyles.css";
 
 export default function InvoiceGenerator() {
-  const [inputs, setInputs] = useState({
-    brand: "",
-    service: "",
-    amount: "",
-    include_gst: true,
+  // Initialize state by reading the saved inputs object from localStorage.
+  const [inputs, setInputs] = useState(() => {
+    const saved = localStorage.getItem("savedInvoiceInputs");
+    // If there's saved data, parse it from JSON; otherwise, use the default state.
+    return saved ? JSON.parse(saved) : {
+      brand: "",
+      service: "",
+      amount: "",
+      include_gst: true,
+    };
   });
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Save the entire inputs object to localStorage whenever it changes.
+  useEffect(() => {
+    localStorage.setItem("savedInvoiceInputs", JSON.stringify(inputs));
+  }, [inputs]);
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
     setInputs((prev) => ({
