@@ -1,13 +1,21 @@
-// // src/components/ContentSafetyChecker.jsx
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Import useEffect
 import { postData } from "../utils/postData";
 import "../styles/CommonStyles.css";
 
 export default function ContentSafetyChecker() {
-  const [script, setScript] = useState("");
+  // MODIFICATION: Initialize state from localStorage, or with an empty string if nothing is saved.
+  const [script, setScript] = useState(() => {
+    const savedScript = localStorage.getItem("savedUserScript");
+    return savedScript || "";
+  });
+
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // MODIFICATION: Add a useEffect hook to save the script to localStorage whenever it changes.
+  useEffect(() => {
+    localStorage.setItem("savedUserScript", script);
+  }, [script]); // This effect runs every time the 'script' state changes
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +43,7 @@ export default function ContentSafetyChecker() {
           rows={6}
           value={script}
           onChange={(e) => setScript(e.target.value)}
-          placeholder="Paste your content here..."
+          placeholder="Paste your content here... it will be saved automatically."
         />
         <button type="submit" className="btn-primary">
           Check Content Safety
