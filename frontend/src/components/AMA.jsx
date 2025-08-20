@@ -24,11 +24,13 @@ export default function AMA() {
     setLoading(true);
     const response = await postData("/api/ama/ask", { question });
     setLoading(false);
-    setResult(
-      response.error
-        ? `❌ Error: ${response.error}`
-        : response.answer || "No answer returned."
-    );
+    if (response.error) {
+      setResult(`❌ Error: ${response.error}`);
+    } else {
+      setResult(response.answer || "No answer returned.");
+      setQuestion("");
+      localStorage.removeItem("savedAMAQuestion");
+    }
   };
 
   return (

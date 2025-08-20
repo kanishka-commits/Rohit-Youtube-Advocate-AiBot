@@ -22,11 +22,13 @@ export default function ContentSafetyChecker() {
     setLoading(true);
     const response = await postData("/api/content/check", { text: script });
     setLoading(false);
-    setResult(
-      response.error
-        ? `❌ Error: ${response.error}`
-        : response.report || "No report returned."
-    );
+    if (response.error) {
+      setResult(`❌ Error: ${response.error}`);
+    } else {
+      setResult(response.answer || "No answer returned.");
+      setScript("");
+      localStorage.removeItem("savedUserScript");
+    }
   };
 
   return (

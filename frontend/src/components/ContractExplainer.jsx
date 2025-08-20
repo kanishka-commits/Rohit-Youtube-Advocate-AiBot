@@ -26,11 +26,13 @@ export default function ContractExplainer() {
     setLoading(true);
     const response = await postData("/api/contract/simplify", { text });
     setLoading(false);
-    setResult(
-      response.error
-        ? `❌ Error: ${response.error}`
-        : response.summary || "No summary returned."
-    );
+    if (response.error) {
+      setResult(`❌ Error: ${response.error}`);
+    } else {
+      setResult(response.summary || "No summary returned.");
+      setText("");
+      localStorage.removeItem("savedContractText");
+    }
   };
 
   return (

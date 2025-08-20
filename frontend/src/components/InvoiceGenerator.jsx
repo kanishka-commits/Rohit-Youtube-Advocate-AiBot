@@ -36,11 +36,13 @@ export default function InvoiceGenerator() {
     setLoading(true);
     const response = await postData("/api/invoice/generate", inputs);
     setLoading(false);
-    setResult(
-      response.error
-        ? `❌ Error: ${response.error}`
-        : response.invoice_text || "No invoice returned."
-    );
+    if (response.error) {
+      setResult(`❌ Error: ${response.error}`);
+    } else {
+      setResult(response.answer || "No answer returned.");
+      setInputs("");
+      localStorage.removeItem("savedInvoiceInputs");
+    }
   };
 
   const downloadPDF = () => {

@@ -23,11 +23,13 @@ export default function YouTubePolicyQA() {
     setLoading(true);
     const response = await postData("/api/youtube/policy", { question });
     setLoading(false);
-    setResult(
-      response.error
-        ? `❌ Error: ${response.error}`
-        : response.answer || "No answer returned."
-    );
+    if (response.error) {
+      setResult(`❌ Error: ${response.error}`);
+    } else {
+      setResult(response.answer || "No answer returned.");
+      setQuestion("");
+      localStorage.removeItem("savedPolicyQuestion");
+    }
   };
 
   return (
