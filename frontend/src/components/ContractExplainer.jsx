@@ -46,7 +46,7 @@ export default function ContractExplainer() {
         <textarea
           rows={6}
           value={text}
-          onChange={(e) => setText(e.g.target.value)}
+          onChange={(e) => setText(e.target.value)}
           placeholder="Paste contract text here... your text will be saved as you type."
         />
         <button type="submit" className="btn-primary">
